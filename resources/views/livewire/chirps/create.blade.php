@@ -1,8 +1,18 @@
 <?php
 
-use function Livewire\Volt\{state};
+use function Livewire\Volt\{rules, state};
 
 state(['message' => '']);
+
+rules(['message' => 'required|string|max:255']);
+
+$store = function () {
+    $validated = $this->validate();
+
+    auth()->user()->chirps()->create($validated);
+
+    $this->message = '';
+};
 
 ?>
 
