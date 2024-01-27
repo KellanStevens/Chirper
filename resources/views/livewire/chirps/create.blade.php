@@ -2,16 +2,23 @@
 
 use function Livewire\Volt\{rules, state};
 
+// Set the initial state
 state(['message' => '']);
 
+// Validate the input
 rules(['message' => 'required|string|max:255']);
 
 $store = function () {
+    // Validate the input
     $validated = $this->validate();
 
+    // Create the chirp
     auth()->user()->chirps()->create($validated);
 
+    // Reset the message input
     $this->message = '';
+
+    $this->dispatch('chirp-created');
 };
 
 ?>
